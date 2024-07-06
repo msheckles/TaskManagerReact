@@ -5,4 +5,4 @@ export const Users = () => {
     <div>Users</div>
   )
 }
-export default Trash
+export default Users
