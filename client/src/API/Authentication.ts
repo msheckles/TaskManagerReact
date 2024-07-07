@@ -1,11 +1,11 @@
 
 
-export const login = async (email: string, password: string) => {
-  let url = "http://localhost:8000" + "/user/login";
+export const login = async (username: string, password: string) => {
+  let url = "http://localhost:8000" + "/token";
   console.log(url);
   
   let data = {
-    email: email,
+    username: username,
     password: password,
   };
   let response = await fetch(url, {
@@ -21,10 +21,10 @@ export const login = async (email: string, password: string) => {
   }
 };
 
-export const register = async (email: string, password: string) => {
+export const register = async (username: string, password: string) => {
   let url = "http://localhost:8000" + "/user/register";
   let data = {
-    email: email,
+    username: username,
     password: password,
   };
   let response = await fetch(url, {

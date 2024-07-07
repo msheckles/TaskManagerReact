@@ -1,12 +1,18 @@
 import React , { useEffect }from "react";  
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Textbox from "../components/Textbox";
 import Button from "../components/Button";
 import { useSelector } from "react-redux";
-import Signup from "./pages/Signup";
+import Signup from "../pages/Signup";
+import { login, register } from "../API/Authentication";
 
 const Login = () => {
+
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const {user} = useSelector((state) => state.auth);
     const {
         register,
@@ -48,19 +54,24 @@ const Login = () => {
             className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'
           >
             <div className='flex flex-col gap-y-5'>
-              <Textbox
-                placeholder='email@example.com'
-                type='email'
-                name='email'
-                label='Email Address'
+              <input
+                placeholder='your username'
+                value={username}
+                type='username'
+                name='username'
+                label='username Address'
                 className='w-full rounded-full'
-                register={register("email", {
-                  required: "Email Address is required!",
+                register={register("username", {
+                  required: "username Address is required!",
                 })}
-                error={errors.email ? errors.email.message : ""}
+                error={errors.username ? errors.username.message : ""}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
               />
-              <Textbox
+              <input
                 placeholder='your password'
+                value={password}
                 type='password'
                 name='password'
                 label='Password'
@@ -69,8 +80,10 @@ const Login = () => {
                   required: "Password is required!",
                 })}
                 error={errors.password ? errors.password.message : ""}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
-
               <span className='text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer' onClick={<Signup />}>
                 Don't have an account yet?
               </span>
@@ -79,7 +92,22 @@ const Login = () => {
                 type='submit'
                 label='Submit'
                 className='w-full h-10 bg-blue-700 text-white rounded-full'
-              />
+                onClick={(e) => {
+                  if (username === "" || password === "") {
+                    alert("Please fill in all fields");
+                    return;
+                  }
+                  login(username, password).then((res) => {
+                    if (res) {
+                      localStorage.setItem("token", res.token);
+                      window.location.reload();
+                    } else {
+                      alert("Wrong username or password");
+                    }
+                  });
+                }}
+              >
+              </Button>
             </div>
 
                 </form>
@@ -90,3 +118,65 @@ const Login = () => {
 }
 
 export default Login 
+
+
+
+
+
+
+
+
+// const SignIn = () => {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   return (
+//     <>
+//       <section className="signin--instruction">
+//         <h1>Welcome Back!</h1>
+//         <p>sign in to your account</p>
+//       </section>
+
+//       <section className="signin--information">
+//         <input
+//           type="text"
+//           value={email}
+//           onChange={(e) => {
+//             setEmail(e.target.value);
+//           }}
+//           placeholder="Enter your email address"
+//         />
+//         <input
+//           type="password"
+//           value={password}
+//           onChange={(e) => {
+//             setPassword(e.target.value);
+//           }}
+//           placeholder="Enter your password"
+//         />
+//         <button
+//           onClick={(e) => {
+//             if (email === "" || password === "") {
+//               alert("Please fill in all fields");
+//               return;
+//             }
+//             login(email, password).then((res) => {
+//               if (res) {
+//                 localStorage.setItem("token", res.token);
+//                 window.location.reload();
+//               } else {
+//                 alert("Wrong email or password");
+//               }
+//             });
+//           }}
+//         >
+//           Sign in
+//         </button>
+//       </section>
+
+//       <section className="signin--switch">
+//         <p>Dont have an account? Let's</p>
+//         <Link to={"/signup"}>Sign up</Link>
+//       </section>
+//     </>
+//   );
+// };
