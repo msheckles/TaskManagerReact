@@ -99,7 +99,7 @@ function App() {
         <Route element={<Layout />}>
           <Route index path='/' element={<Navigate to='/dashboard' />} />
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/tasks' element={<Tasks />} />
+          <Route path='/task' element={<Tasks />} />
           <Route path='/completed/:status' element={<Tasks />} />
           <Route path='/in-progress/:status' element={<Tasks />} />
           <Route path='/todo/:status' element={<Tasks />} />
