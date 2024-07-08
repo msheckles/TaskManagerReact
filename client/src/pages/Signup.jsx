@@ -1,10 +1,9 @@
 import React , { useEffect }from "react";  
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Textbox from "../components/Textbox";
 import Button from "../components/Button";
 import { useSelector } from "react-redux";
-import Login from "./Login";
 
 const Signup = () => {
     const {user} = useSelector((state) => state.auth);
@@ -48,6 +47,17 @@ const Signup = () => {
                 className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'
               >
                 <div className='flex flex-col gap-y-5'>
+                <Textbox
+                    placeholder='Full name'
+                    type='name'
+                    name='name'
+                    label='Name'
+                    className='w-full rounded-full'
+                    register={register("name", {
+                      required: "name Address is required!",
+                    })}
+                    error={errors.name ? errors.name.message : ""}
+                  />
                   <Textbox
                     placeholder='email@example.com'
                     type='email'
@@ -71,9 +81,9 @@ const Signup = () => {
                     error={errors.password ? errors.password.message : ""}
                   />
     
-                  <span className='text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer'>
+                  <Link to="/log-in" className='text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer'>
                     Already have an account ?
-                  </span>
+                  </Link>
     
                   <Button
                     type='submit'

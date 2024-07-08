@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Textbox from "../components/Textbox";
 import Button from "../components/Button";
 import { useSelector } from "react-redux";
-import Signup from "../pages/Signup";
 import { login, register } from "../API/Authentication";
+<<<<<<< HEAD
 import { formToJSON } from "axios";
 import { LoginAPI } from "../services/Auth.services";
 
@@ -40,6 +40,37 @@ const Login = () => {
   useEffect(() => {
     user && navigate("/dashboard");
   }, [user]);
+=======
+import Signup from "./Signup";
+
+const Login = () => {
+
+    const usernamechanger = (username) => {
+      setUsername(username);
+    }
+    const passwordchanger = (password) => {
+      setPassword(password);
+    }
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const {user} = useSelector((state) => state.auth);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm();
+
+      const navigate = useNavigate();
+      const navigate1 = useNavigate();
+
+      const submitHandler = async (data) => {
+        console.log("submit");
+      };
+      useEffect(() => {
+        user && navigate("/dashboard");
+      }, [user]);
+      
+>>>>>>> ef998bf5443c8b44f63395ae3bf793eeaa7c5a51
   return (
     <div className='w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]'>
       <div iv className='w-full md:w-auto flex gap-0 md:gap-40 flex-col md:flex-row items-center justify-center'>
@@ -66,7 +97,11 @@ const Login = () => {
             className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'
           >
             <div className='flex flex-col gap-y-5'>
+<<<<<<< HEAD
               <input
+=======
+              <Textbox
+>>>>>>> ef998bf5443c8b44f63395ae3bf793eeaa7c5a51
                 placeholder='your email'
                 value={username}
                 type='email'
@@ -77,11 +112,9 @@ const Login = () => {
                   required: "email Address is required!",
                 })}
                 error={errors.username ? errors.username.message : ""}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
+                changer={usernamechanger}
               />
-              <input
+              <Textbox
                 placeholder='your password'
                 value={password}
                 type='password'
@@ -95,15 +128,36 @@ const Login = () => {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                changer={passwordchanger}
               />
-              <span className='text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer' onClick={<Signup />}>
+              <Link to="/Sign-up" className='text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer'>
                 Don't have an account yet?
-              </span>
+              </Link>
 
               <Button
                 type='submit'
                 label='Submit'
                 className='w-full h-10 bg-blue-700 text-white rounded-full'
+<<<<<<< HEAD
+=======
+                onClick={(e) => {
+                  if (username === "" || password === "") {
+                    alert("Please fill in all fields");
+                    return;
+                  }
+                  login(username, password).then((res) => {
+                   
+                    console.log(res);
+                    if (res) {
+                      localStorage.setItem("token", res.token);
+                      navigate1("/dashboard");
+                      
+                    } else {
+                      alert("Wrong username or password");
+                    }
+                  });
+                }}
+>>>>>>> ef998bf5443c8b44f63395ae3bf793eeaa7c5a51
               >
               </Button>
             </div>
