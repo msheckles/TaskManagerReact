@@ -1,4 +1,4 @@
-import React , { useEffect }from "react";  
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -7,35 +7,47 @@ import Button from "../components/Button";
 import { useSelector } from "react-redux";
 import Signup from "../pages/Signup";
 import { login, register } from "../API/Authentication";
+import { formToJSON } from "axios";
+import { LoginAPI } from "../services/Auth.services";
 
 const Login = () => {
 
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const {user} = useSelector((state) => state.auth);
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-      } = useForm();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { user } = useSelector((state) => state.auth);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-      const navigate = useNavigate();
+  const navigate = useNavigate();
 
-      const submitHandler = async (data) => {
-        console.log("submit");
-      };
-      useEffect(() => {
-        user && navigate("/dashboard");
-      }, [user]);
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const data = formToJSON(formData)
+    if (username === "" || password === "") {
+      alert("Please fill in all fields");
+      return;
+    }
+    LoginAPI(data)
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+
+  };
+  useEffect(() => {
+    user && navigate("/dashboard");
+  }, [user]);
   return (
     <div className='w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]'>
-        <div iv className='w-full md:w-auto flex gap-0 md:gap-40 flex-col md:flex-row items-center justify-center'>
-            {/* left side */}
-            <div className='h-full w-full lg:w-3/4 flex flex-col items-center justify-center'>
-            <div className='w-full md:max-w-lg 2xl:max-w-3xl flex flex-col items-center justify-center gap-5 md:gap-y-10 2xl:-mt-20'>
+      <div iv className='w-full md:w-auto flex gap-0 md:gap-40 flex-col md:flex-row items-center justify-center'>
+        {/* left side */}
+        <div className='h-full w-full lg:w-3/4 flex flex-col items-center justify-center'>
+          <div className='w-full md:max-w-lg 2xl:max-w-3xl flex flex-col items-center justify-center gap-5 md:gap-y-10 2xl:-mt-20'>
             <span className='flex gap-1 py-1 px-3 border rounded-full text-sm md:text-base bordergray-300 text-gray-600'>
-             ladies and gentelmen , we present our final web project!
+              ladies and gentelmen , we present our final web project!
             </span>
             <p className='flex flex-col gap-0 md:gap-4 text-4xl md:text-6xl 2xl:text-7xl font-black text-center text-blue-700'>
               <span>  welcome to </span>
@@ -46,23 +58,23 @@ const Login = () => {
               <div className='circle rotate-in-up-left'></div>
             </div>
           </div>
-            </div>
-            
-            {/* right side */}
-            <div className='w-full md:w-1/4 p-4 md:p-1 flex flex-col justify-center items-center'>
-                <form  onSubmit={handleSubmit(submitHandler)}
+        </div>
+
+        {/* right side */}
+        <div className='w-full md:w-1/4 p-4 md:p-1 flex flex-col justify-center items-center'>
+          <form onSubmit={onSubmit}
             className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'
           >
             <div className='flex flex-col gap-y-5'>
               <input
-                placeholder='your username'
+                placeholder='your email'
                 value={username}
-                type='username'
-                name='username'
-                label='username Address'
+                type='email'
+                name='email'
+                label='email Address'
                 className='w-full rounded-full'
-                register={register("username", {
-                  required: "username Address is required!",
+                register={register("email", {
+                  required: "email Address is required!",
                 })}
                 error={errors.username ? errors.username.message : ""}
                 onChange={(e) => {
@@ -92,32 +104,18 @@ const Login = () => {
                 type='submit'
                 label='Submit'
                 className='w-full h-10 bg-blue-700 text-white rounded-full'
-                onClick={(e) => {
-                  if (username === "" || password === "") {
-                    alert("Please fill in all fields");
-                    return;
-                  }
-                  login(username, password).then((res) => {
-                    if (res) {
-                      localStorage.setItem("token", res.token);
-                      window.location.reload();
-                    } else {
-                      alert("Wrong username or password");
-                    }
-                  });
-                }}
               >
               </Button>
             </div>
 
-                </form>
-            </div>
+          </form>
         </div>
+      </div>
     </div>
   )
 }
 
-export default Login 
+export default Login
 
 
 
