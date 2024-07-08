@@ -13,7 +13,7 @@ import TaskDetails from "./pages/TaskDetails";
 import Tasks from "./pages/Tasks";
 import Trash from "./pages/Trash";
 import Users from "./pages/Users";
-import Dashboard from "./pages/dashboard";
+import Dashboard from "./pages/Dashboard";
 import { setOpenSidebar } from "./redux/slices/authSlice";
 
 function Layout() {
@@ -99,7 +99,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index path='/' element={<Navigate to='/Dashboard' />} />
-          <Route path='/dashboard' element={<dashboard />} />
+          <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/task' element={<Tasks />} />
           <Route path='/completed/:status' element={<Tasks />} />
           <Route path='/in-progress/:status' element={<Tasks />} />
@@ -110,6 +110,7 @@ function App() {
         </Route>
 
         <Route path='/log-in' element={<Login />} />
+        <Route path='/Sign-up' element={<Signup />} />
       </Routes>
 
       <Toaster richColors />
