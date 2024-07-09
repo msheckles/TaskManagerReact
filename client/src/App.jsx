@@ -13,11 +13,8 @@ import TaskDetails from "./pages/TaskDetails";
 import Tasks from "./pages/Tasks";
 import Trash from "./pages/Trash";
 import Users from "./pages/Users";
-<<<<<<< HEAD
-=======
-import Dashboard from "./pages/Dashboard";
->>>>>>> ef998bf5443c8b44f63395ae3bf793eeaa7c5a51
 import { setOpenSidebar } from "./redux/slices/authSlice";
+import Dashboard from "./pages/Dashboard";
 
 function Layout() {
   const { user } = useSelector((state) => state.auth);
@@ -101,12 +98,8 @@ function App() {
     <main className='w-full min-h-screen bg-[#f3f4f6] '>
       <Routes>
         <Route element={<Layout />}>
-          <Route index path='/' element={<Navigate to='/Dashboard' />} />
-<<<<<<< HEAD
-          {/* <Route path='/dashboard' element={<dashboard />} /> */}
-=======
           <Route path='/dashboard' element={<Dashboard />} />
->>>>>>> ef998bf5443c8b44f63395ae3bf793eeaa7c5a51
+          {/* <Route path='/dashboard' element={<Dashboard />} /> */}
           <Route path='/task' element={<Tasks />} />
           <Route path='/completed/:status' element={<Tasks />} />
           <Route path='/in-progress/:status' element={<Tasks />} />

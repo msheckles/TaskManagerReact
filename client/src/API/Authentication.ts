@@ -1,17 +1,11 @@
-<<<<<<< HEAD
-=======
-import Users from "../pages/Users";
-
-
->>>>>>> ef998bf5443c8b44f63395ae3bf793eeaa7c5a51
 export const login = async (username: string, password: string) => {
   let url = "http://localhost:8000" + "/token";
 };
 
 export const register = async (username: string, password: string) => {
-  let url = "http://localhost:8000" + "/user/register";
+  let url = "http://127.0.0.1:8000/Login";
   let data = {
-    email: username,
+    username: username,
     password: password,
   };
   let response = await fetch(url, {

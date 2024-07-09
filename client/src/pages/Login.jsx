@@ -1,76 +1,60 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Textbox from "../components/Textbox";
 import Button from "../components/Button";
 import { useSelector } from "react-redux";
 import { login, register } from "../API/Authentication";
-<<<<<<< HEAD
 import { formToJSON } from "axios";
-import { LoginAPI } from "../services/Auth.services";
+// import { LoginAPI } from "../services/Auth.services";
+import { Input } from "@headlessui/react";
+import { Get_User, Get_token } from "../API/apiServices";
 
 const Login = () => {
-
+  // let [userData, setUserData] = useState(null);
+  console.log("salam");
+  useEffect(() => {
+    Get_User().then(data => {
+      console.log(data)
+      if (data) {
+        // setUserData(userData);
+        navigate('/dashboard')
+      }
+    });
+  }, [])
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm();
 
   const navigate = useNavigate();
 
-  const onSubmit = (e) => {
-    e.preventDefault()
-    const formData = new FormData(e.target)
-    const data = formToJSON(formData)
+  const onSubmit = async (e) => {
+    e.preventDefault();
     if (username === "" || password === "") {
       alert("Please fill in all fields");
       return;
     }
-    LoginAPI(data)
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
 
+    let result = await Get_token(username, password);
+
+    if (!result) {
+      alert("login failed: username or password incorrect")
+    } else {
+      localStorage.setItem("token", result);
+
+      return navigate("/dashboard");
+    }
   };
   useEffect(() => {
     user && navigate("/dashboard");
   }, [user]);
-=======
-import Signup from "./Signup";
-
-const Login = () => {
-
-    const usernamechanger = (username) => {
-      setUsername(username);
-    }
-    const passwordchanger = (password) => {
-      setPassword(password);
-    }
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const {user} = useSelector((state) => state.auth);
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-      } = useForm();
-
-      const navigate = useNavigate();
-      const navigate1 = useNavigate();
-
-      const submitHandler = async (data) => {
-        console.log("submit");
-      };
-      useEffect(() => {
-        user && navigate("/dashboard");
-      }, [user]);
-      
->>>>>>> ef998bf5443c8b44f63395ae3bf793eeaa7c5a51
   return (
     <div className='w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]'>
       <div iv className='w-full md:w-auto flex gap-0 md:gap-40 flex-col md:flex-row items-center justify-center'>
@@ -97,38 +81,37 @@ const Login = () => {
             className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'
           >
             <div className='flex flex-col gap-y-5'>
-<<<<<<< HEAD
-              <input
-=======
-              <Textbox
->>>>>>> ef998bf5443c8b44f63395ae3bf793eeaa7c5a51
-                placeholder='your email'
+              <Input
+                placeholder='your username'
                 value={username}
-                type='email'
-                name='email'
-                label='email Address'
+                type='text'
+                name='username'
+                label='username Address'
                 className='w-full rounded-full'
-                register={register("email", {
-                  required: "email Address is required!",
-                })}
-                error={errors.username ? errors.username.message : ""}
-                changer={usernamechanger}
+                // register={register("username", {
+                //   required: "username Address is required!",
+                // })}
+                // error={errors.username ? errors.username.message : ""}
+                // changer={usernamechanger}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
               />
-              <Textbox
+              <Input
                 placeholder='your password'
                 value={password}
                 type='password'
                 name='password'
                 label='Password'
                 className='w-full rounded-full'
-                register={register("password", {
-                  required: "Password is required!",
-                })}
-                error={errors.password ? errors.password.message : ""}
+                // register={register("password", {
+                //   required: "Password is required!",
+                // })}
+                // error={errors.password ? errors.password.message : ""}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
-                changer={passwordchanger}
+              // changer={passwordchanger}
               />
               <Link to="/Sign-up" className='text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer'>
                 Don't have an account yet?
@@ -138,30 +121,10 @@ const Login = () => {
                 type='submit'
                 label='Submit'
                 className='w-full h-10 bg-blue-700 text-white rounded-full'
-<<<<<<< HEAD
-=======
-                onClick={(e) => {
-                  if (username === "" || password === "") {
-                    alert("Please fill in all fields");
-                    return;
-                  }
-                  login(username, password).then((res) => {
-                   
-                    console.log(res);
-                    if (res) {
-                      localStorage.setItem("token", res.token);
-                      navigate1("/dashboard");
-                      
-                    } else {
-                      alert("Wrong username or password");
-                    }
-                  });
-                }}
->>>>>>> ef998bf5443c8b44f63395ae3bf793eeaa7c5a51
+
               >
               </Button>
             </div>
-
           </form>
         </div>
       </div>

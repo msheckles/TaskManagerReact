@@ -147,7 +147,7 @@ const UserTable = ({ users }) => {
 };
 
 
-export default function dashboard() {
+export default function Dashboard() {
   const totals = summary.tasks;
 
   const stats = [
